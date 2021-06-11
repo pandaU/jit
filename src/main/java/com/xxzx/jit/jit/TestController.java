@@ -48,7 +48,7 @@ public class TestController {
             Object bean = RegisterBean.registerBean(apiNameDown, aClass);
             Class<?> aClass1 = bean.getClass();
             RegisterBean.controlCenter(aClass1, ApplicationContextRegister.getApplicationContext(),2,methodName,apiMapping);
-            //// TODO: 2021/6/11  将发布信息存储到mysql 便于后期维护管理 
+            //// TODO: 2021/6/11  将发布信息存储到mysql 便于后期维护管理
             return "发布成功";
         } catch (IOException e) {
         }
