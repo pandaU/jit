@@ -47,12 +47,16 @@ public class TestController {
             String apiNameDown = new String(chars);
             Object bean = RegisterBean.registerBean(apiNameDown, aClass);
             Class<?> aClass1 = bean.getClass();
+            final RestController annotation = aClass1.getAnnotation(RestController.class);
+            if (annotation == null){
+                return "发布失败,请确保类上有@RestController";
+            }
             RegisterBean.controlCenter(aClass1, ApplicationContextRegister.getApplicationContext(),2,methodName,apiMapping);
             //// TODO: 2021/6/11  将发布信息存储到mysql 便于后期维护管理
             return "发布成功";
         } catch (IOException e) {
         }
-        return "发布失败";
+        return "发布失败,请确保方法上有@RequestMapping";
     }
     @RequestMapping("/testBean")
     public String registerBean2(String beanName,String methodName,String  argsType) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, ClassNotFoundException {
