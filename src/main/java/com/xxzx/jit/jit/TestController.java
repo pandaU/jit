@@ -19,7 +19,7 @@ public class TestController {
 
 
     @PostMapping("/registerApi")
-    public String toAction(@RequestParam("file") MultipartFile file,String methodName,String apiMapping) throws Exception {
+    public String registerApi(@RequestParam("file") MultipartFile file,String methodName,String apiMapping) throws Exception {
         if (file.isEmpty()) {
             return "请选择java文件";
         }

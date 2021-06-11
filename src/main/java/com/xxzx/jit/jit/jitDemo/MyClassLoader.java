@@ -15,7 +15,7 @@ public class MyClassLoader extends ClassLoader {
     }
 
     @Override
-    protected Class<?> findClass(String path) throws ClassNotFoundException {
+    protected Class<?> findClass(String path){
         byte[] bytes = loadBytes(path);
         String name = path;
         if (path.contains(PathConfig.EXT_JAVA_DIR)) {
@@ -28,7 +28,7 @@ public class MyClassLoader extends ClassLoader {
             if (line == null || line.isEmpty() || !line.startsWith(PathConfig.PACKAGE)){
                 name = suffix;
             }else {
-                String prefix = line.replace(PathConfig.PACKAGE,"").trim();
+                String prefix = line.replace(PathConfig.PACKAGE,"").replace(";","").trim();
                 name = prefix + "." + suffix;
             }
 
