@@ -1,4 +1,4 @@
-package com.xxzx.jit.jit;
+package com.xxzx.jit.jit.service;
 
 import org.springframework.stereotype.Component;
 

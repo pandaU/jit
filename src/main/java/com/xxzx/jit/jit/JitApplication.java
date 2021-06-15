@@ -1,12 +1,11 @@
 package com.xxzx.jit.jit;
 
-import com.xxzx.jit.jit.utils.ApplicationContextRegister;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
+@MapperScan({"com.xxzx.jit.jit.mapper*", "com.baomidou.springboot.mapper*"})
 public class JitApplication {
 
     public static void main(String[] args) {
