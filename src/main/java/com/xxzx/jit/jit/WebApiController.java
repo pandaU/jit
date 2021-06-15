@@ -1,7 +1,7 @@
 package com.xxzx.jit.jit;
 
 import com.xxzx.jit.jit.config.PathConfig;
-import com.xxzx.jit.jit.jitDemo.WebApiClassLoader;
+import com.xxzx.jit.jit.utils.WebApiClassLoader;
 import com.xxzx.jit.jit.utils.ApplicationContextRegister;
 import com.xxzx.jit.jit.utils.RegisterBean;
 import org.springframework.util.StringUtils;
@@ -37,7 +37,7 @@ public class WebApiController {
      * @date 2021 -06-15 08:42:25
      */
     @PostMapping("/registerApi")
-    public String registerApi(@RequestParam("file") MultipartFile file,String methodName,String apiMapping) throws Exception {
+    public Object registerApi(@RequestParam("file") MultipartFile file,String methodName,String apiMapping) throws Exception {
         String fileName = file.getOriginalFilename();
         if (file.isEmpty() || !fileName.endsWith(PathConfig.JAVA_SUFFIX)) {
             return "请选择java文件";

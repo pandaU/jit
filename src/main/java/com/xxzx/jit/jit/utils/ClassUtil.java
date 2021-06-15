@@ -1,4 +1,4 @@
-package com.xxzx.jit.jit.jitDemo;
+package com.xxzx.jit.jit.utils;
 
 import java.io.*;
 import java.nio.file.Files;

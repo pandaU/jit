@@ -1,4 +1,4 @@
-package com.xxzx.jit.jit.jitDemo;
+package com.xxzx.jit.jit.utils;
 
 
 import com.xxzx.jit.jit.config.PathConfig;
@@ -9,7 +9,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * <p>
+ * The type Web api class loader.
+ *
+ * @author XieXiongXiong
+ * @date 2021 -06-15
+ */
 public class WebApiClassLoader extends ClassLoader {
+    /**
+     * Web api class loader
+     *
+     * @param parent parent
+     */
     public WebApiClassLoader(ClassLoader parent) {
         super(parent);
     }
@@ -36,6 +48,14 @@ public class WebApiClassLoader extends ClassLoader {
         return defineClass(name,bytes,0,bytes.length);
     }
 
+    /**
+     * Load bytes byte [ ].
+     *
+     * @param path the path
+     * @return the byte [ ]
+     * @author XieXiongXiong
+     * @date 2021 -06-15 10:17:52
+     */
     public static byte[] loadBytes(String path){
         byte[] bytes = new byte[0];
         try {
@@ -45,6 +65,14 @@ public class WebApiClassLoader extends ClassLoader {
         return  bytes;
     }
 
+    /**
+     * Read first line string.
+     *
+     * @param path the path
+     * @return the string
+     * @author XieXiongXiong
+     * @date 2021 -06-15 10:17:52
+     */
     public static String readFirstLine(String path){
         String firstLine = null;
         try {
