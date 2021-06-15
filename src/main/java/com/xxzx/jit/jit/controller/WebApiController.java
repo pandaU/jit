@@ -6,7 +6,6 @@ import com.xxzx.jit.jit.service.WebApiServiceImpl;
 import com.xxzx.jit.jit.utils.WebApiClassLoader;
 import com.xxzx.jit.jit.utils.ApplicationContextRegister;
 import com.xxzx.jit.jit.utils.RegisterBean;
-import org.assertj.core.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -91,7 +90,7 @@ public class WebApiController {
             }
             RegisterBean.controlCenter(aClass1, ApplicationContextRegister.getApplicationContext(), 2, methodName, apiMapping);
             //// TODO: 2021/6/11  将发布信息存储到mysql 便于后期维护管理
-            List<WebApiInfo> list = webApiService.list(apiNameDown, methodName,apiMapping);
+            List<WebApiInfo> list = webApiService.list(apiNameDown, methodName,null);
             WebApiInfo info = new WebApiInfo();
             info.setBeanName(apiNameDown);
             info.setApiPath(apiMapping);
@@ -102,6 +101,9 @@ public class WebApiController {
                 final Long id = list.get(0).getId();
                 info.setId(id);
                 info.setUtime(threadLocal.get().format(new Date()));
+                if (!apiMapping.equals(list.get(0).getApiPath())){
+                    RegisterBean.controlCenter(aClass1, ApplicationContextRegister.getApplicationContext(), 3, methodName, list.get(0).getApiPath());
+                }
                 webApiService.upById(info);
             } else {
                 webApiService.saveWebApi(info);

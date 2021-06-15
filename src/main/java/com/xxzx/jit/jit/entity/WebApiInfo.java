@@ -18,16 +18,22 @@ import lombok.Data;
 public class WebApiInfo {
     @TableId(value = "id",type = IdType.ASSIGN_ID)
     private Long id;
+
     @TableField(value = "bean_name")
     private String beanName;
+
     @TableField(value = "api_path")
     private String apiPath;
+
     @TableField(value = "method_name")
     private String methodName;
+
     @TableField(value = "class_path")
     private String classPath;
+
     @TableField(value = "status")
     private Integer  status;
+
     @TableField(value = "utime")
     private String  utime;
 }
