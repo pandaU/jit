@@ -1,7 +1,7 @@
 package com.xxzx.jit.jit;
 
 import com.xxzx.jit.jit.config.PathConfig;
-import com.xxzx.jit.jit.jitDemo.MyClassLoader;
+import com.xxzx.jit.jit.jitDemo.WebApiClassLoader;
 import com.xxzx.jit.jit.utils.ApplicationContextRegister;
 import com.xxzx.jit.jit.utils.RegisterBean;
 import org.springframework.util.StringUtils;
@@ -14,16 +14,34 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * <p>
+ * The type Test controller.
+ *
+ * @author XieXiongXiong
+ * @date 2021 -06-15
+ */
 @RestController
-public class TestController {
+public class WebApiController {
 
 
+    /**
+     * Register api string.
+     *
+     * @param file       the file
+     * @param methodName the method name
+     * @param apiMapping the api mapping
+     * @return the string
+     * @throws Exception the exception
+     * @author XieXiongXiong
+     * @date 2021 -06-15 08:42:25
+     */
     @PostMapping("/registerApi")
     public String registerApi(@RequestParam("file") MultipartFile file,String methodName,String apiMapping) throws Exception {
-        if (file.isEmpty()) {
+        String fileName = file.getOriginalFilename();
+        if (file.isEmpty() || !fileName.endsWith(PathConfig.JAVA_SUFFIX)) {
             return "请选择java文件";
         }
-        String fileName = file.getOriginalFilename();
         if (!StringUtils.hasLength(fileName)){
             return "文件名称不合法";
         }
@@ -32,7 +50,7 @@ public class TestController {
         File dest = new File(apiPath);
         try {
             file.transferTo(dest);
-            MyClassLoader loader = new MyClassLoader(Thread.currentThread().getContextClassLoader());
+            WebApiClassLoader loader = new WebApiClassLoader(Thread.currentThread().getContextClassLoader());
             /**动态编译*/
             Boolean compilerResp =  compiler(apiPath);
             if (!compilerResp){
@@ -58,6 +76,22 @@ public class TestController {
         }
         return "发布失败,请确保方法上有@RequestMapping";
     }
+
+    /**
+     * Register bean 2 string.
+     *
+     * @param beanName   the bean name
+     * @param methodName the method name
+     * @param argsType   the args type
+     * @return the string
+     * @throws NoSuchMethodException     the no such method exception
+     * @throws InvocationTargetException the invocation target exception
+     * @throws IllegalAccessException    the illegal access exception
+     * @throws InstantiationException    the instantiation exception
+     * @throws ClassNotFoundException    the class not found exception
+     * @author XieXiongXiong
+     * @date 2021 -06-15 08:42:25
+     */
     @RequestMapping("/testBean")
     public String registerBean2(String beanName,String methodName,String  argsType) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, ClassNotFoundException {
         Class<?> args = Class.forName(argsType);
@@ -70,6 +104,14 @@ public class TestController {
 
     }
 
+    /**
+     * Compiler boolean.
+     *
+     * @param javaAbsolutePath the java absolute path
+     * @return the boolean
+     * @author XieXiongXiong
+     * @date 2021 -06-15 08:42:25
+     */
     private static Boolean compiler(String javaAbsolutePath){
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         int run = compiler.run(null, null, null, "-encoding", "UTF-8", "-extdirs", PathConfig.EXT_JAVA_LIB, javaAbsolutePath);

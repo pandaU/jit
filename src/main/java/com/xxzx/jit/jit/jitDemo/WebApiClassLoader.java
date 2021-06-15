@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class MyClassLoader extends ClassLoader {
-    public MyClassLoader(ClassLoader parent) {
+public class WebApiClassLoader extends ClassLoader {
+    public WebApiClassLoader(ClassLoader parent) {
         super(parent);
     }
 

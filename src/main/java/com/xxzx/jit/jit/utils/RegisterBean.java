@@ -1,20 +1,32 @@
 package com.xxzx.jit.jit.utils;
 
-import com.xxzx.jit.jit.TestController;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionOverrideException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
+/**
+ * <p>
+ * The type Register bean.
+ *
+ * @author XieXiongXiong
+ * @date 2021 -06-15
+ */
 public class RegisterBean {
+    /**
+     * Register bean object.
+     *
+     * @param name the name
+     * @param cl   the cl
+     * @return the object
+     * @author XieXiongXiong
+     * @date 2021 -06-15 09:12:33
+     */
     public static Object registerBean(String name, Class cl) {
         //将applicationContext转换为ConfigurableApplicationContext
         ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) ApplicationContextRegister.getApplicationContext();
@@ -31,7 +43,7 @@ public class RegisterBean {
         // 注册bean
         try {
             defaultListableBeanFactory.registerBeanDefinition(name, beanDefinitionBuilder.getRawBeanDefinition());
-        }catch (Exception e){
+        }catch (BeanDefinitionOverrideException e){
             System.out.println("bean 已经注册");
         }
         Object bean =  ApplicationContextRegister.getBean(name);
@@ -42,6 +54,19 @@ public class RegisterBean {
         //defaultListableBeanFactory.removeBeanDefinition("testService");
     }
 
+    /**
+     * Control center.
+     *
+     * @param controllerClass the controller class
+     * @param Context         the context
+     * @param type            the type
+     * @param methodName      the method name
+     * @param apiMapping      the api mapping
+     * @throws IllegalAccessException the illegal access exception
+     * @throws Exception              the exception
+     * @author XieXiongXiong
+     * @date 2021 -06-15 09:12:33
+     */
     public static void controlCenter(Class<?> controllerClass, ApplicationContext Context, Integer type,String methodName,String apiMapping) throws IllegalAccessException, Exception{
         //获取RequestMappingHandlerMapping
         RequestMappingHandlerMapping requestMappingHandlerMapping=(RequestMappingHandlerMapping) Context.getBean(RequestMappingHandlerMapping.class);
@@ -73,24 +98,34 @@ public class RegisterBean {
     }
 
     /**
-     *
      * registerMapping(注册mapping到spring容器中)
-     * @param   requestMappingHandlerMapping
+     *
+     * @param requestMappingHandlerMapping the request mapping handler mapping
+     * @param mappingInfo                  the mapping info
+     * @param controllerClass              the controller class
+     * @param method                       the method
+     * @throws Exception              the exception
+     * @throws IllegalAccessException the illegal access exception
+     * @author XieXiongXiong
+     * @date 2021 -06-15 09:12:33
      * @Exception 异常对象
-     * @since  CodingExample　Ver(编码范例查看) 1.1
-     * @author jiaxiaoxian
+     * @since CodingExample 　Ver(编码范例查看) 1.1
      */
     public static void registerMapping(RequestMappingHandlerMapping requestMappingHandlerMapping,RequestMappingInfo mappingInfo, Class<?> controllerClass, Method method) throws Exception, IllegalAccessException{
         requestMappingHandlerMapping.registerMapping(mappingInfo, ApplicationContextRegister.getBean(controllerClass),method);
     }
 
     /**
-     *
      * unRegisterMapping(spring容器中删除mapping)
-     * @param   requestMappingHandlerMapping
+     *
+     * @param requestMappingHandlerMapping the request mapping handler mapping
+     * @param mappingInfo                  the mapping info
+     * @throws Exception              the exception
+     * @throws IllegalAccessException the illegal access exception
+     * @author XieXiongXiong
+     * @date 2021 -06-15 09:12:33
      * @Exception 异常对象
-     * @since  CodingExample　Ver(编码范例查看) 1.1
-     * @author jiaxiaoxian
+     * @since CodingExample 　Ver(编码范例查看) 1.1
      */
     public static void unRegisterMapping(RequestMappingHandlerMapping requestMappingHandlerMapping,RequestMappingInfo mappingInfo) throws Exception, IllegalAccessException{
         requestMappingHandlerMapping.unregisterMapping(mappingInfo);
